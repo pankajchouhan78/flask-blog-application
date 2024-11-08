@@ -1,0 +1,145 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Blog{% endblock %}
+
+{% block main %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+<div class="container">
+    <main class="form-signin w-50 m-auto">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">s.no</th>
+                    <th scope="col">Auther</th>
+                    <th scope="col">Content</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for blog in Blogs %}
+                <tr>
+                    <th scope="row">1</th>
+                    <td>{{blog.author.user.name}}</td>
+                    <td>{{blog.content}}</td>
+                    <td>
+
+                        <a class="btn btn-primary" href="{{ url_for('blog_blueprint.update_blog', id=blog.id) }}"
+                            role="button"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a class="btn btn-danger" href="{{ url_for('blog_blueprint.delete_blog', id=blog.id) }}"
+                            role="button"><i class="fa-solid fa-trash"></i></a>
+                        <a class="btn btn-warning" aria-disabled="true" role="button">
+                            {% if blog.is_complated %}
+                            <i class="fa-solid fa-check"></i>
+                            {% else %}
+                            <i class="fa-regular fa-clock"></i>
+                            {% endif %}
+                        </a>
+
+                    </td>
+                </tr>
+                {% endfor %}
+              
+            </tbody>
+        </table>
+
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            Create Blogs
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <form method="post">
+                        <div class="modal-body">
+
+                            <div class="col-md-12 m-2">
+                                <label for="inputState" class="form-label">Select Auther</label>
+                                <select id="inputState" onchange="change_option(event)" name="auther" class="form-select">
+                                    {% for auth in auther %}
+                                    <option value="{{auth.id}}" >{{auth.user.name}}</option>
+                                    {% endfor %}
+                                    <option value="create_author">Create Author</option>
+
+                                </select>
+                            </div>
+
+                            <div class="col-12 m-2">
+                                <label for="desc">Content</label>
+                                <textarea class="form-control" id="desc" name="content" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="model_close" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">create</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+
+
+
+<!-- Model for auther -->
+<div class="modal fade" id="createAuthorModal" tabindex="-1" aria-labelledby="createAuthorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="post" action="{{url_for('blog_blueprint.auther')}}">
+                <div class="modal-body">
+
+                    <div class="col-md-12 m-2">
+                        <label for="selectUser" class="form-label">Select User</label>
+                        <select id="selectUser" name="user" class="form-select">
+                            {% for user in users %}
+                            <option value="{{user.id}}">{{user.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-12 m-2">
+                        <label for="bioInput">Bio</label>
+                        <textarea class="form-control" id="bioInput" name="bio" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="auther_model_close" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+        var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+        modal.hide();
+
+        var auther_modal = new bootstrap.Modal(document.getElementById('createAuthorModal'));
+        auther_modal.hide();
+    });
+
+function change_option(event){
+    if (event.target.value === "create_author") {
+    //     location.href = 'http://127.0.0.1:5000/blog/auther';
+    var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+    modal.hide();
+
+    var auther_modal = new bootstrap.Modal(document.getElementById('createAuthorModal'));
+    auther_modal.show();
+
+    // document.getElementById('exampleModal').style.display = "none";
+    // document.getElementById('createAuthorModal').style.display = "block";
+  }
+}
+
+</script>
+{% endblock %}

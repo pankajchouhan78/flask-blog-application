@@ -1,0 +1,27 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block main %}
+<div class="container">
+    <main class="form-signin w-50 m-auto">
+        <form method="post" >
+            <h1 class="h3 mb-3 fw-normal">Register</h1>
+            <div class="form-floating my-2">
+                <input type="text" class="form-control" id="name"  name="name" placeholder="name">
+                <label for="name">Name</label>
+            </div>
+            <div class="form-floating my-2">
+                <input type="text" class="form-control" id="floatingInput"  name="username" placeholder="username">
+                <label for="floatingInput">Username</label>
+            </div>
+            <div class="form-floating my-2">
+                <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+            </div>
+
+            <button class="btn btn-primary w-100 py-2 my-3" type="submit">Sign up</button>
+        </form>
+    </main>
+</div>
+{% endblock %}
